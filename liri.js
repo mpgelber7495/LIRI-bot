@@ -6,7 +6,22 @@ var keys = require("./keys.js");
 
 const [_, __, commandName, commandParam] = process.argv;
 
-var spotify = new Spotify(keys.spotify);
+const Spotify = require("node-spotify-api");
+const spotifyUser = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+});
+
+spotify.search({ type: "track", query: "All the Small Things" }, function(
+  err,
+  data
+) {
+  if (err) {
+    return console.log("Error occurred: " + err);
+  }
+
+  console.log(data);
+});
 switch (commandName) {
   case "concert-this":
     let artist = commandParam;
@@ -15,7 +30,19 @@ switch (commandName) {
       artist +
       "/events?app_id=codingbootcamp";
 
-    axios(queryURL.then());
+    axios(queryURL)
+      .then(resp => {
+        let data = resp.data;
+        let venues = [];
+        console.log(`Looks like ${artist} is playing the following shows:`);
+        for (let i = 0; i < data.length; i++) {
+          console.log(`${data[i]["venue"]["name"]}`);
+          console.log(`\tIn ${data[i]["venue"]["city"]}`);
+          console.log(`\tOn ${data[i]["datetime"]}`);
+        }
+        console.log(venues);
+      })
+      .catch(err => console.log(err));
     break;
   case "spotify-this-song":
     let song = commandParam;
