@@ -13,6 +13,8 @@ This is a command line app that utilizes node.js and a handful of packages/apis 
 - Spotify API
 - OMDB API
 - Bands In Town API
+- Selenium-webdriver (only for Bootcamp Spot users)
+- The webdriver of your choice (configured to Chrome by default)
 
 ### Installation/Setup
 
