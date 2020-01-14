@@ -12,6 +12,7 @@ const spotify = new Spotify({
   id: process.env.SPOTIFY_ID,
   secret: process.env.SPOTIFY_SECRET
 });
+
 function liriBot(commandName, commandParam = "") {
   switch (commandName) {
     case "concert-this":
@@ -81,6 +82,24 @@ function liriBot(commandName, commandParam = "") {
         let callData = data.split(",");
         liriBot(callData[0], callData[1]);
       });
+      break;
+    case "log-me-in-scotty":
+      const { Builder, By, Key, until } = require("selenium-webdriver");
+      (async function getBootCamp() {
+        let driver = await new Builder().forBrowser("chrome").build();
+        try {
+          await driver.get("https://bootcampspot.com/login");
+          await driver
+            .findElement(By.id("emailAddress"))
+            .sendKeys(process.env.BCS_USER, Key.TAB);
+          await driver
+            .findElement(By.id("password"))
+            .sendKeys(process.env.BCS_PASS, Key.RETURN);
+          await driver.wait(until.titleIs("Dashboard | Bootcamp Spot"), 1000);
+        } finally {
+          //   await driver.quit();
+        }
+      })();
       break;
     default:
       console.log(
