@@ -83,6 +83,9 @@ function liriBot(commandName, commandParam = "") {
       });
       break;
     default:
+      console.log(
+        "Hmmm there's something wrong about the above. Consult the readme.md for info on how to use this app."
+      );
   }
 }
 
