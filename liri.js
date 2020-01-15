@@ -96,8 +96,32 @@ function liriBot(commandName, commandParam = "") {
             .findElement(By.id("password"))
             .sendKeys(process.env.BCS_PASS, Key.RETURN);
           await driver.wait(until.titleIs("Dashboard | Bootcamp Spot"), 1000);
+          await driver
+            .findElement(
+              //   By.xpath('//a[contains(@aria-lable, "Class Sessions")]')
+              By.xpath('//a[contains(@aria-label, "Class Sessions")]')
+            )
+            .click();
+          //   await driver.wait(function() {
+          //     return false;
+          //   }, 3000);
+          //   await driver.wait(
+          //     until.titleIs("Class Sessions | Bootcamp Spot"),
+          //     1000
+          //   );
+          await driver.wait(
+            until.visibilityOfElementLocated(
+              By.xpath('//a[contains(@aria-describedby, "Attendance Satus")]')
+            ),
+            3000
+          );
+          await driver
+            .findElement(
+              By.xpath('//a[contains(@aria-describedby, "Attendance Satus")]')
+            )
+            .click();
         } finally {
-          //   await driver.quit();
+          await driver.quit();
         }
       })();
       break;
